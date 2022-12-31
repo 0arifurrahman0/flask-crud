@@ -4,9 +4,17 @@
 <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">Login Page</h1>
-        <p class="col-md-8 fs-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur culpa delectus
-            dolorum eaque facere in ipsa laborum magni optio, perspiciatis quo ratione sunt tempore voluptate
-            voluptatem! Error iure magnam odio.</p>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
     </div>
 </div>
 {% endblock %}
