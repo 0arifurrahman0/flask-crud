@@ -8,7 +8,7 @@ def login():
     return render_template('auth/login.html')
 
 
-@auth.route('/register')
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         name = request.form.get('name')
@@ -19,7 +19,7 @@ def register():
         if password != confirm_password:
             flash('Password not match!', category='error')
         else:
-            flash('Account created!')
+            flash('Account created!', category='success')
 
     return render_template('auth/register.html')
 
@@ -27,6 +27,3 @@ def register():
 @auth.route('/logout')
 def logout():
     return "Logout"
-
-
-
