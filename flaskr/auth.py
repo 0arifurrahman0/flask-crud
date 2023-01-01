@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, flash
 
 auth = Blueprint('auth', __name__)
 
@@ -9,7 +9,18 @@ def login():
 
 
 @auth.route('/register')
-def sign_up():
+def register():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        if password != confirm_password:
+            flash('Password not match!', category='error')
+        else:
+            flash('Account created!')
+
     return render_template('auth/register.html')
 
 
