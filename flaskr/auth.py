@@ -24,7 +24,6 @@ def login():
             flash('User not found with this email.', category='error')
     return render_template('auth/login.html', user=current_user)
 
-
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -49,7 +48,6 @@ def register():
             login_user(user, remember=True)
             flash('Account created successfully!', category='success')
             return redirect(url_for('views.home'))
-
     return render_template('auth/register.html', user=current_user)
 
 
@@ -57,9 +55,4 @@ def register():
 @login_required
 def logout():
     return redirect(url_for('auth.login'))
-
-
-
-
-
 
