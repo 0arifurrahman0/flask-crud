@@ -6,7 +6,8 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['GET', 'POST'])
+
+@auth.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -24,6 +25,7 @@ def login():
             flash('User not found with this email.', category='error')
     return render_template('auth/login.html', user=current_user)
 
+
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -34,7 +36,7 @@ def register():
 
         user = User.query.filter_by(email=email).first()
         if user:
-                flash('Email already exists.', category='error')
+            flash('Email already exists.', category='error')
         elif len(name) < 2:
             flash('Name must be greater than 1 character.', category='error')
         elif len(email) < 4:
@@ -55,4 +57,3 @@ def register():
 @login_required
 def logout():
     return redirect(url_for('auth.login'))
-
