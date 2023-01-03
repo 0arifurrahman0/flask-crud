@@ -5,13 +5,15 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+
+
 # file_path = os.path.abspath(os.getcwd())+"\database.db"
 
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "random_string_for_key"
-    # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{DB_NAME}'
     db.init_app(app)
 
@@ -22,10 +24,11 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
 
     from .models import User, Note
+
     with app.app_context():
         db.create_all()
 
-    # create_database(app)
+    #create_database(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -36,6 +39,7 @@ def create_app():
         return User.query.get(int(id))
 
     return app
+
 
 # def create_database(app):
 #     if not path.exists('flaskr/' + DB_NAME):
