@@ -5,10 +5,13 @@
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">Notes</h1>
 
-        <ul class="list-group list-group-flush" id="notes">
-            {% for note in user.notes %}
+        <ul class="list-group" id="notes">
+            {% for note in current_user.notes %}
             <li class="list-group-item">
                 {{ note.data }}
+                <button type="button" class="btn btn-danger btn-sm float-end" onclick="deleteNote({{ note.id }})">
+                    Delete
+                </button>
             </li>
             {% endfor %}
         </ul>

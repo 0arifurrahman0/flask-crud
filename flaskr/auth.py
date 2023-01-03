@@ -2,28 +2,33 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user
 
 auth = Blueprint('auth', __name__)
 
 
 @auth.route('/', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+    try:
+        if request.method == 'POST':
+            email = request.form.get('email')
+            password = request.form.get('password')
 
-        user = User.query.filter_by(email=email).first()
-        if user:
-            if check_password_hash(user.password, password):
-                flash('Logged in successfully!', category='success')
-                login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+            user = User.query.filter_by(email=email).first()
+            if user:
+                if check_password_hash(user.password, password):
+                    flash('Logged in successfully!', category='success')
+                    login_user(user, remember=True)
+                    return redirect(url_for('views.home'))
+                else:
+                    flash('Incorrect password, try again.', category='error')
             else:
-                flash('Incorrect password, try again.', category='error')
-        else:
-            flash('User not found with this email.', category='error')
-    return render_template('auth/login.html', user=current_user)
+                flash('User not found with this email.', category='error')
+
+        return render_template('auth/login.html')
+
+    except Exception as e:
+        flash(e, category='error')
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -50,10 +55,11 @@ def register():
             login_user(user, remember=True)
             flash('Account created successfully!', category='success')
             return redirect(url_for('views.home'))
-    return render_template('auth/register.html', user=current_user)
+    return render_template('auth/register.html')
 
 
 @auth.route('/logout')
 @login_required
 def logout():
+    logout_user()
     return redirect(url_for('auth.login'))
